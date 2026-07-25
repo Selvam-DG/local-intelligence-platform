@@ -1,0 +1,20 @@
+services:
+  backend:
+    build: ./backend
+    container_name: chat-backend
+    env_file: backend/.env
+    ports:
+      - "8090:8090"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_BASE_URL: /api
+    container_name: chat-frontend
+    ports:
+      - "98:98"
+    depends_on:
+      - backend
+    restart: unless-stopped
